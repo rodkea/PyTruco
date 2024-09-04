@@ -1,28 +1,22 @@
 from enum import Enum
-from collections import namedtuple
+from .card import Card, Rank, RankReduced, Suit
 import random
 
 class DeckType(Enum):
   REDUCED = 0
-  FULL = 1
+  FULL = 1  
 
-Card = namedtuple('Card', ['rank', 'suit'])
-
-class SpanishDeck:
-  
-  all_ranks= [str(n) for n in range(1, 13)]
-  reduced_ranks = [str(n) for n in range(1, 8)] + [str(n) for n in range(10, 13)]
-  suits = 'basto copa espada oro'.split()
-  
+class SpanishDeck:  
+    
   def __init__(self, deck_type : DeckType = DeckType.FULL):
     self._deck_type = deck_type
     if deck_type == DeckType.FULL:
-      ranks = self.all_ranks
+      ranks = Rank
     elif deck_type == DeckType.REDUCED:
-      ranks = self.reduced_ranks  
+      ranks = RankReduced
     else:
       raise ValueError("Unrecognized deck type.")
-    self._cards = [Card(rank, suit) for suit in self.suits 
+    self._cards = [Card(rank, suit) for suit in Suit 
                                     for rank in ranks]
   
   def __len__(self):

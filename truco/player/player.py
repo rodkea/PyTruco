@@ -28,6 +28,10 @@ class Hand:
   def __getitem__(self, position):
     return self._cards[position]
   
+  @property
+  def cards(self):
+    return tuple(card for card in self._cards)
+  
   def add_card(self, card: Card):
     """
     Adds a card to the hand if the maximum number of cards has not been reached.
@@ -42,6 +46,12 @@ class Hand:
       self._cards.append(card)
     else:
       raise ValueError(f"Cannot add more than {self._max_cards} cards to hand.")
+    
+  def clear(self):
+    """
+    Removes all cards from the hand.
+    """
+    self._cards = []
     
   def play_card(self, card: Card):
     """
@@ -62,9 +72,7 @@ class Hand:
     else:
       raise ValueError(f"Card {card} not in hand.")
       
-  @property
-  def cards(self):
-    return tuple(card for card in self._cards)
+  
 
 class Player:
   """
@@ -85,15 +93,20 @@ class Player:
     if self._hand: #Checks if hand is not empty
       return self._hand.play_card(card)
     raise EmptyHandError
-    
-    
+  
+  def clear_hand(self):
+    self._hand.clear()
+  
+  def __repr__(self) -> str:
+    return f"Player({self.name})"
+  
+  def __str__(self) -> str:
+    return self.name
+  
   @property
   def hand(self):
     return self._hand.cards
-      
-  
-
-    
+         
   @property
   def name(self):
     return self._name

@@ -1,29 +1,25 @@
 import unittest
-from truco.decks import DeckType, SpanishDeck, Card
+from truco import DeckType, SpanishDeck, Card, Suit, Rank, RankReduced
 
 
 class TestSpanishDeck(unittest.TestCase):
         
   def test_full_deck_initialization(self):
     deck = SpanishDeck(deck_type=DeckType.FULL)
-    self.assertEqual(len(deck._cards), 48)  # 12 ranks * 4 suits
+    self.assertEqual(len(deck), 48)  # 12 ranks * 4 suits
     
-    # Checks if all cards are presents in the deck
-    ranks = SpanishDeck.all_ranks
-    suits = SpanishDeck.suits
-    expected_cards = [Card(rank, suit) for suit in suits for rank in ranks]
+    # Checks if all cards are presents in the deck    
+    expected_cards = [Card(rank, suit) for suit in Suit for rank in Rank]
       
     for card in expected_cards:
         self.assertIn(card, deck._cards)
   
   def test_reduced_deck_initialization(self):
     deck = SpanishDeck(deck_type=DeckType.REDUCED)
-    self.assertEqual(len(deck._cards), 40)  # 10 ranks * 4 suits
+    self.assertEqual(len(deck), 40)  # 10 ranks * 4 suits
     
     # Checks if all cards are presents in the deck
-    ranks = SpanishDeck.reduced_ranks
-    suits = SpanishDeck.suits
-    expected_cards = [Card(rank, suit) for suit in suits for rank in ranks]
+    expected_cards = [Card(rank, suit) for suit in Suit for rank in RankReduced]
     
     for card in expected_cards:
         self.assertIn(card, deck._cards)
@@ -55,8 +51,6 @@ class TestSpanishDeck(unittest.TestCase):
       deck.pop()
     with self.assertRaises(IndexError):
       deck.pop()
-    
-    
     
 if __name__ == '__main__':
   unittest.main()

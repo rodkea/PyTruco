@@ -1,5 +1,6 @@
 from typing import List
 from player import Player
+import random
 
 class Team:
   """
@@ -21,7 +22,9 @@ class Team:
     return f"Team({self.team_name}, {self._max_length})"
   
   def __str__(self) -> str:
-    return f"Team({self.team_name})"
+    if len(self) == 1:
+      return f"{self._players[0].name}"
+    return self.team_name
   
   def __getitem__(self, position):
     return self._players[position]
@@ -68,7 +71,7 @@ class Team:
     if len(self) <3:
       self._players.append(player)
   
-  def add_point(self, points: int):
+  def add_points(self, points: int):
     """
     Adds points to the team's total score.
 
@@ -76,3 +79,6 @@ class Team:
       points (int): The number of points to add to the team's score.
     """
     self._points += points
+  
+  def shuffle(self):
+    random.shuffle(self._players)
